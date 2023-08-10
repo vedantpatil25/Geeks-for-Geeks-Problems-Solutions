@@ -4,25 +4,29 @@ using namespace std;
 
 
 // } Driver Code Ends
+
+// SPACE OPTIMISED  -- TABULATION METHOD -->
+
+
 class Solution {
   public:
     
-    int solve(vector<int>& height, int curr, vector<int>&dp){
-        if(curr == 0) return 0;
-        if(dp[curr] != -1) return dp[curr]; 
-        
-        int left = solve(height, curr-1, dp) + abs(height[curr] - height[curr-1]);
-        int right = INT_MAX;
-        
-        if(curr > 1) right = solve(height, curr-2, dp) + abs(height[curr] - height[curr-2]);
-        
-        return dp[curr] =  min(left, right);
-    }
   
     int minimumEnergy(vector<int>& height, int n) {
         // Code here
-        vector<int>dp(n+1, -1);
-        return solve(height, n-1, dp);
+        int prev = 0;
+        int prev2 = 0;
+        int curr = 0;
+        for(int i = 1 ; i < n ; i++){
+            int fs = prev + abs(height[i] - height[i-1]);
+            int ls = INT_MAX;
+            if(i > 1) ls = prev2 + abs(height[i] - height[i-2]);
+            curr = min(ls, fs);
+            prev2 = prev;
+            prev = curr;
+
+        }
+        return curr;
     }
 };
 
